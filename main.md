@@ -46,3 +46,6 @@ CREATE TABLE trips (
 psql -h localhost -U postgres -d zoomcamp -c "\COPY zones FROM '/Users/ps/repos/learnings/data-engineering-camp/taxi+_zone_lookup.csv' DELIMITER ',' CSV HEADER;"
 psql -h localhost -U postgres -d zoomcamp -c "\COPY trips FROM '/Users/ps/repos/learnings/data-engineering-camp/green_tripdata_2019-01.csv' DELIMITER ',' CSV HEADER;"
 ```
+
+### Homework 1: w1-homework.sql
+
