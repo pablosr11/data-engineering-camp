@@ -15,11 +15,26 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "static" {
-  name          = var.bucket-name
-  location      = "EU"
-  storage_class = "STANDARD"
+  name     = var.bucket-name
+  location = "EU"
 
+  storage_class               = "STANDARD"
   uniform_bucket_level_access = true
+
+  versioning {
+    enabled = true
+  }
+
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+    condition {
+      age = 30 // days
+    }
+  }
+
+  force_destroy = true
 }
 
 resource "google_bigquery_dataset" "dataset" {
