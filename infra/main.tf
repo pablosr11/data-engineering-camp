@@ -23,10 +23,8 @@ resource "google_storage_bucket" "static" {
 }
 
 resource "google_bigquery_dataset" "dataset" {
-  dataset_id                  = "zoomcamp_dataset"
-  friendly_name               = "zoomy"
-  description                 = "Dataset for the data-engineering course"
-  location                    = "EU"
-  default_table_expiration_ms = 3600000
+  dataset_id = "zoomcamp_dataset"
+  location   = "EU"
+  project    = "zoomcamp-412215"
 }
 
