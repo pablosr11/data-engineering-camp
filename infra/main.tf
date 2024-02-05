@@ -5,6 +5,10 @@ terraform {
       version = "5.13.0"
     }
   }
+  backend "gcs" {
+    bucket = "73572d6977e97d93-bucket-tfstate"
+    prefix = "terraform/state"
+  }
 }
 
 provider "google" {
@@ -38,9 +42,10 @@ resource "google_storage_bucket" "static" {
 }
 
 resource "google_bigquery_dataset" "dataset" {
-  dataset_id = "zoomcamp_dataset"
-  location   = "EU"
-  project    = "zoomcamp-412215"
+  dataset_id  = "zoomcamp_dataset"
+  location    = "EU"
+  project     = "zoomcamp-412215"
+  description = "Dataset for the data-engineering course"
 }
 
 resource "random_id" "bucket_prefix" {
