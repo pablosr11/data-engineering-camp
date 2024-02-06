@@ -1,6 +1,8 @@
-import httpx
+import time
 from datetime import timedelta
-from prefect import flow, task
+
+import httpx
+from prefect import flow, serve, task
 from prefect.tasks import task_input_hash
 
 
@@ -40,5 +42,19 @@ def get_repo_info(repo_name: str):
     print(f"Average open issues per user 💌 : {issues_per_user:.2f}")
 
 
+@flow
+def slow_flow(sleep: int = 60):
+    "Sleepy flow - sleeps the provided amount of time (in seconds)."
+    time.sleep(sleep)
+
+
 if __name__ == "__main__":
-    get_repo_info(repo_name="mitsuhiko/rye")
+    get_repo_info_deploy = get_repo_info.to_deployment(
+        name="gh-stats-deployment",
+        tags=["testing", "tutorial"],
+        cron="* * * * *",
+        description="Given a GitHub repository, logs repository statistics for that repo.",
+        parameters={"repo_name": "tensorflow/tensorflow"},
+    )
+    slow_flow_deploy = slow_flow.to_deployment(name="sleeper", interval=45)
+    serve(get_repo_info_deploy, slow_flow_deploy)
