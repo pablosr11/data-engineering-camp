@@ -52,7 +52,7 @@ if __name__ == "__main__":
     get_repo_info_deploy = get_repo_info.to_deployment(
         name="gh-stats-deployment",
         tags=["testing", "tutorial"],
-        cron="* * * * *",
+        cron="0 0 * * *",
         description="Given a GitHub repository, logs repository statistics for that repo.",
         parameters={"repo_name": "tensorflow/tensorflow"},
     )
