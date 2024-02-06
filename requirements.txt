@@ -17,3 +17,4 @@ confluent-kafka
 httpx
 pydantic
 anyio
+gcsfs
