@@ -38,4 +38,4 @@ def etl_taxi():
 
 
 if __name__ == "__main__":
-    etl_taxi()
+    etl_taxi.serve("etl-taxi-to-gcs", cron="0 5 1 * *")
