@@ -1,5 +1,5 @@
 pandas
-prefect
+prefect==2.14
 prefect-sqlalchemy
 prefect-gcp[cloud_storage]
 protobuf
@@ -15,5 +15,5 @@ dbt-postgres
 pyspark
 confluent-kafka
 httpx
-pydantic==1.10.11
-anyio==3.7.1
+pydantic
+anyio
