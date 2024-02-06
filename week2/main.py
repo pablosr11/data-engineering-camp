@@ -1,8 +1,14 @@
 from datetime import timedelta
+from enum import Enum
 
 import pandas as pd
-from prefect import flow, task, serve
+from prefect import flow, task
 from prefect.tasks import task_input_hash
+
+
+class Color(Enum):
+    GREEN = "green"
+    YELLOW = "yellow"
 
 
 @task(cache_expiration=timedelta(days=1), cache_key_fn=task_input_hash)
@@ -17,12 +23,9 @@ def load(df: pd.DataFrame, path: str):
 
 
 @flow(log_prints=True)
-def etl_taxi():
-    color = "green"
-    year = 2020
-    month = 1
-    dataset_file = f"{color}_tripdata_{year}-{month:02}"
-    url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
+def etl_load_taxi_data(color: Color = Color.GREEN, year: int = 2020, month: int = 1):
+    dataset_file = f"{color.value}_tripdata_{year}-{month:02}"
+    url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color.value}/{dataset_file}.csv.gz"
 
     print(f"Downloading {url}...")
     df = extract(url)
@@ -38,4 +41,4 @@ def etl_taxi():
 
 
 if __name__ == "__main__":
-    etl_taxi.serve("etl-taxi-to-gcs", cron="0 5 1 * *")
+    etl_load_taxi_data.serve("etl-taxi-to-gcs", cron="0 5 1 * *")
