@@ -23,7 +23,9 @@ def load(df: pd.DataFrame, path: str):
 
 
 @flow(log_prints=True)
-def etl_load_taxi_data(color: Color = Color.GREEN, year: int = 2020, month: int = 1):
+def etl_taxi_data_gh_to_gcs(
+    color: Color = Color.GREEN, year: int = 2020, month: int = 1
+):
     dataset_file = f"{color.value}_tripdata_{year}-{month:02}"
     url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color.value}/{dataset_file}.csv.gz"
 
@@ -36,8 +38,24 @@ def etl_load_taxi_data(color: Color = Color.GREEN, year: int = 2020, month: int 
     # load onto GCS
     gcs_path = f"gs://pablo-does-zoomcamp/{dataset_file}.parquet"
     load(df, gcs_path)
+    print(f"Data saved to {gcs_path}")
 
     return df
+
+
+@task(cache_expiration=timedelta(days=1), cache_key_fn=task_input_hash)
+def extract_from_gcs(filepath: str) -> pd.DataFrame:
+    return pd.read_parquet(filepath)
+
+
+@task(cache_expiration=timedelta(days=1), cache_key_fn=task_input_hash)
+def load_to_bq(df: pd.DataFrame, dataset: str, table: str, project_id: str):
+    df.to_gbq(
+        destination_table=f"{dataset}.{table}",
+        project_id=project_id,
+        if_exists="append",
+    )
+
 
 
 if __name__ == "__main__":
