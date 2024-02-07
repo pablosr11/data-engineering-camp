@@ -49,11 +49,9 @@ resource "google_storage_bucket" "static" {
       type = "Delete"
     }
     condition {
-      age = 30 // days
+      age = 5 // days
     }
   }
-
-  force_destroy = true
 }
 
 resource "google_bigquery_dataset" "dataset" {
