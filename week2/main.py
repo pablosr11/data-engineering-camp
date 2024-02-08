@@ -20,6 +20,7 @@ class Month(Enum):
     JAN = "01"
     FEB = "02"
     MAR = "03"
+    NOV = "11"
 
 
 @task(cache_expiration=timedelta(days=1), cache_key_fn=task_input_hash)
@@ -96,12 +97,15 @@ def etl_taxi_data_gcs_to_bq(
 
 
 @flow(log_prints=True)
-def row_counter_flow_from_gcs(color: Color, year: Year, month: Month):
+def row_counter_flow_from_gh(color: Color, year: Year, month: Month):
     dataset_file = f"{color.value}_tripdata_{year.value}-{month.value:02}"
-    filepath = f"gs://pablo-does-zoomcamp/{dataset_file}.parquet"
-    df = extract_from_gcs(filepath)
+    url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color.value}/{dataset_file}.csv.gz"
+
+    print(f"Downloading {url}...")
+    df = extract(url)
+
     print(f"Number of rows and cols: {df.shape}")
-    return df.shape[0]
+    print(f"Columns: {df.columns}")
 
 
 if __name__ == "__main__":
