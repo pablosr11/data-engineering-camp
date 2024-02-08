@@ -96,4 +96,7 @@ def etl_taxi_data_gcs_to_bq(
 
 
 if __name__ == "__main__":
-    etl_load_taxi_data.serve("etl-taxi-to-gcs", cron="0 5 1 * *")
+    gb_to_gcs = etl_taxi_data_gh_to_gcs.to_deployment("gh_to_gcs")
+    gcs_to_bq = etl_taxi_data_gcs_to_bq.to_deployment("gcs_to_bq")
+    serve(gcs_to_bq, gb_to_gcs)
+
