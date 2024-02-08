@@ -11,6 +11,17 @@ class Color(Enum):
     YELLOW = "yellow"
 
 
+class Year(Enum):
+    YEAR_2019 = 2019
+    YEAR_2020 = 2020
+
+
+class Month(Enum):
+    JAN = "01"
+    FEB = "02"
+    MAR = "03"
+
+
 @task(cache_expiration=timedelta(days=1), cache_key_fn=task_input_hash)
 def extract(url: str) -> pd.DataFrame:
     df = pd.read_csv(url)
