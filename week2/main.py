@@ -95,8 +95,16 @@ def etl_taxi_data_gcs_to_bq(
     load_to_bq(df, dataset, table, project_id)
 
 
+@flow(log_prints=True)
+def row_counter_flow_from_gcs(color: Color, year: Year, month: Month):
+    dataset_file = f"{color.value}_tripdata_{year.value}-{month.value:02}"
+    filepath = f"gs://pablo-does-zoomcamp/{dataset_file}.parquet"
+    df = extract_from_gcs(filepath)
+    print(f"Number of rows and cols: {df.shape}")
+    return df.shape[0]
+
+
 if __name__ == "__main__":
     gb_to_gcs = etl_taxi_data_gh_to_gcs.to_deployment("gh_to_gcs")
     gcs_to_bq = etl_taxi_data_gcs_to_bq.to_deployment("gcs_to_bq")
     serve(gcs_to_bq, gb_to_gcs)
-
