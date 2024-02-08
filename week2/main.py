@@ -2,7 +2,7 @@ from datetime import timedelta
 from enum import Enum
 
 import pandas as pd
-from prefect import flow, task
+from prefect import flow, serve, task
 from prefect.tasks import task_input_hash
 
 
@@ -35,7 +35,7 @@ def load(df: pd.DataFrame, path: str):
 
 @flow(log_prints=True)
 def etl_taxi_data_gh_to_gcs(
-    color: Color = Color.GREEN, year: int = 2020, month: int = 1
+    color: Color = Color.GREEN, year: Year = Year.YEAR_2019, month: Month = Month.JAN
 ):
     dataset_file = f"{color.value}_tripdata_{year}-{month:02}"
     url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color.value}/{dataset_file}.csv.gz"
@@ -67,6 +67,32 @@ def load_to_bq(df: pd.DataFrame, dataset: str, table: str, project_id: str):
         if_exists="append",
     )
 
+
+@flow(log_prints=True)
+def etl_taxi_data_gcs_to_bq(
+    color: Color,
+    year: Year,
+    month: Month,
+    dataset: str = "zoomcamp_dataset",
+    table: str = "events",
+    project_id: str = "zoomcamp-412215",
+):
+
+    dataset_file = f"{color.value}_tripdata_{year.value}-{month.value:02}"
+    filepath = f"gs://pablo-does-zoomcamp/{dataset_file}.parquet"
+    print(f"Extracting {filepath}...")
+
+    # extract from GCS
+    df = extract_from_gcs(filepath)
+
+    # only keep trip_distance,fare_amount and VendorID
+    df = df[["trip_distance", "fare_amount", "VendorID"]]
+
+    print(f"Number of rows and cols: {df.shape}")
+
+    print("Loading into BQ...")
+
+    load_to_bq(df, dataset, table, project_id)
 
 
 if __name__ == "__main__":
