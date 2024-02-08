@@ -1,0 +1,90 @@
+###
+### A complete description of a Prefect Deployment for flow 'row-counter-flow-from-gh'
+###
+name: row_counter
+description: null
+version: d36b050139c34b528e59f2865b6a72c8
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: null
+tags:
+- gh-block
+parameters: {}
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: row-counter-flow-from-gh
+manifest_path: null
+storage:
+  repository: https://github.com/pablosr11/data-engineering-camp
+  reference: null
+  access_token: null
+  include_git_objects: true
+  _block_document_id: 6f3ac0eb-4ea0-43ee-abfa-b31895b35c00
+  _block_document_name: gh-block
+  _is_anonymous: false
+  block_type_slug: github
+  _block_type_slug: github
+path: ''
+entrypoint: week2/main.py:row_counter_flow_from_gh
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    color:
+      title: color
+      position: 0
+      allOf:
+      - $ref: '#/definitions/Color'
+    year:
+      title: year
+      position: 1
+      allOf:
+      - $ref: '#/definitions/Year'
+    month:
+      title: month
+      position: 2
+      allOf:
+      - $ref: '#/definitions/Month'
+  required:
+  - color
+  - year
+  - month
+  definitions:
+    Color:
+      title: Color
+      description: An enumeration.
+      enum:
+      - green
+      - yellow
+    Year:
+      title: Year
+      description: An enumeration.
+      enum:
+      - 2019
+      - 2020
+    Month:
+      title: Month
+      description: An enumeration.
+      enum:
+      - '01'
+      - '02'
+      - '03'
+      - '11'
+timestamp: '2024-02-08T13:46:56.196103+00:00'
+triggers: []
+enforce_parameter_schema: null
