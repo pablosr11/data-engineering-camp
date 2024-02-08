@@ -112,3 +112,9 @@ if __name__ == "__main__":
     gb_to_gcs = etl_taxi_data_gh_to_gcs.to_deployment("gh_to_gcs")
     gcs_to_bq = etl_taxi_data_gcs_to_bq.to_deployment("gcs_to_bq")
     serve(gcs_to_bq, gb_to_gcs)
+
+    # Deploy from GH
+    # prefect deployment build week2/main.py:row_counter_flow_from_gh --name row_counter --tag 'gh-block' -sb github/gh-block -a
+
+    # Local agent
+    # prefect agent start --pool "default-agent-pool"
