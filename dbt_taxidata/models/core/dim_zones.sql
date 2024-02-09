@@ -1,7 +1,5 @@
 {{ config(
     materialized='table',
-    unique_key='zone_id',
-    sort='zone_id'
 ) }}
 select 
     locationid,
