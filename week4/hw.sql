@@ -27,9 +27,15 @@ FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.fact_fhv_trips`
 WHERE EXTRACT(YEAR FROM pickup_datetime AT TIME ZONE "UTC") = 2019
 
 
-
+-- What is the month with the biggest amount of rides after building a tile for the fact_fhv_trips table?
+WITH trips_by_month AS (
 SELECT 
-  EXTRACT(MONTH FROM pickup_datetime AT TIME ZONE "UTC") as mm, 
-  count(*) as count
+  EXTRACT(MONTH FROM pickup_datetime AT TIME ZONE "UTC") as month, 
+  count(*) as n_trips
 FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.fact_fhv_trips`
 GROUP BY EXTRACT(MONTH FROM pickup_datetime AT TIME ZONE "UTC")
+)
+SELECT month, n_trips
+FROM trips_by_month
+order by n_trips desc
+limit 1
