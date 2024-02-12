@@ -20,6 +20,14 @@ FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.stg_fhv_tripdata`
 WHERE EXTRACT(YEAR FROM pickup_datetime AT TIME ZONE "UTC") = 2019
 
 
+-- What is the count of records in the model fact_fhv_trips after running all dependencies with the test run variable disabled (:false)?
+-- Create a core model for the stg_fhv_tripdata joining with dim_zones. Similar to what we've done in fact_trips, keep only records with known pickup and dropoff locations entries for pickup and dropoff locations. Run it via the CLI without limits (is_test_run: false) and filter records with pickup time in year 2019.
+SELECT count(*)
+FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.fact_fhv_trips`
+WHERE EXTRACT(YEAR FROM pickup_datetime AT TIME ZONE "UTC") = 2019
+
+
+
 SELECT 
   EXTRACT(MONTH FROM pickup_datetime AT TIME ZONE "UTC") as mm, 
   count(*) as count

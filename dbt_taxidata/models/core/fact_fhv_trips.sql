@@ -13,7 +13,7 @@ fhv_trips as (
     select * 
     from {{ ref('stg_fhv_tripdata') }}
     where pickup_locationid IS NOT NULL 
-    AND dropoff_locationid IS NOT NULL
+    AND dropoff_locationid IS NOT NULL 
 )
 select fhv_trips.*,
     pickup_zone.borough as pickup_borough,
