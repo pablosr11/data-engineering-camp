@@ -14,6 +14,12 @@ select
   round(cc/sum(cc) over () * 100,2), service_type
 from gg
 
+-- What is the count of records in the model stg_fhv_tripdata after running all models with the test run variable disabled (:false)? For 2019
+SELECT count(*)
+FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.stg_fhv_tripdata`
+WHERE EXTRACT(YEAR FROM pickup_datetime AT TIME ZONE "UTC") = 2019
+
+
 SELECT 
   EXTRACT(MONTH FROM pickup_datetime AT TIME ZONE "UTC") as mm, 
   count(*) as count
