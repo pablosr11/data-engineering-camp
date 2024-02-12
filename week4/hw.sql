@@ -3,6 +3,17 @@ SELECT count(tripid)
 FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.fact_trips` 
 WHERE EXTRACT(YEAR FROM pickup_datetime AT TIME ZONE "UTC") in (2019,2020)
 
+-- What is the distribution between service type filtering by years 2019 and 2020 data as done in the videos?
+WITH gg as (
+  SELECT count(service_type) cc, service_type
+  FROM `zoomcamp-412215.zoomcamp_dataset_dbt_psand.fact_trips` 
+  WHERE EXTRACT(YEAR FROM pickup_datetime AT TIME ZONE "UTC") in (2019,2020)
+  GROUP BY service_type
+)
+select 
+  round(cc/sum(cc) over () * 100,2), service_type
+from gg
+
 SELECT 
   EXTRACT(MONTH FROM pickup_datetime AT TIME ZONE "UTC") as mm, 
   count(*) as count
