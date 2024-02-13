@@ -12,7 +12,7 @@ polars
 dbt-core
 dbt-bigquery
 dbt-postgres
-pyspark
+pyspark==3.5
 confluent-kafka
 httpx
 pydantic
