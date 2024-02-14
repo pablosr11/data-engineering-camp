@@ -23,3 +23,10 @@ Kafka
 
 8. Kafka Connect w/ files (defaults to local test.txt and test.sink.txt for in/out). Requires manually adding the connect jar to plugin.path
    `bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties`
+
+
+## Week 6 Homework
+1. Create topics for rides_fhv, rides_green and rides_all:
+   `bin/kafka-topics.sh --create --topic rides_fhv --bootstrap-server localhost:9092`
+   `bin/kafka-topics.sh --create --topic rides_green --bootstrap-server localhost:9092`
+   `bin/kafka-topics.sh --create --topic rides_all --bootstrap-server localhost:9092`
