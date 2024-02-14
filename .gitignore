@@ -6,4 +6,4 @@
 
 *.pyc
 
-week6/kafka**
+week6/kafka_2.13-3.6.1/*
