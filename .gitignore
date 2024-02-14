@@ -5,3 +5,5 @@
 *.json
 
 *.pyc
+
+week6/kafka**
