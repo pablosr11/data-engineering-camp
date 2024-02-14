@@ -9,3 +9,17 @@ Kafka
 3. Create topic
    `bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092`
 
+4. Create producer
+   `bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092`
+
+5. Create consumer
+   `bin/kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092`
+
+6. List topics
+   `bin/kafka-topics.sh --list --bootstrap-server localhost:9092`
+
+7. Describe topic
+   `bin/kafka-topics.sh --describe --topic quickstart-events --bootstrap-server localhost:9092`
+
+8. Kafka Connect w/ files (defaults to local test.txt and test.sink.txt for in/out). Requires manually adding the connect jar to plugin.path
+   `bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties`
