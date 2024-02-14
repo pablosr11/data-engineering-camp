@@ -69,10 +69,8 @@ df = df.withColumn(
 
 
 df = df.na.drop()
-
 df.printSchema()
 
-# keep only PUlocationID and DOlocationID. filter out if PULocationID
 df = df.select("PULocationID", "DOLocationID").filter("PULocationID is not null")
 
 df_trip_count_by_pulocation = op_groupby(df, ["PUlocationID"])
