@@ -30,3 +30,5 @@ Kafka
    `bin/kafka-topics.sh --create --topic rides_fhv --bootstrap-server localhost:9092`
    `bin/kafka-topics.sh --create --topic rides_green --bootstrap-server localhost:9092`
    `bin/kafka-topics.sh --create --topic rides_all --bootstrap-server localhost:9092`
+2. ✅ Producer that reads csv files and publish rides in corresponding kafka topics (such as rides_green, rides_fhv)
+
