@@ -32,3 +32,6 @@ Kafka
    `bin/kafka-topics.sh --create --topic rides_all --bootstrap-server localhost:9092`
 2. ✅ Producer that reads csv files and publish rides in corresponding kafka topics (such as rides_green, rides_fhv)
 
+3. ✅ Pyspark-streaming-application that reads two kafka topics
+
+4. Pyspark streaming-app that consumes both of them in topic rides_all and apply aggregations to find most popular pickup location.
