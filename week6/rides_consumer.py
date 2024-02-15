@@ -10,23 +10,6 @@ os.environ["PYSPARK_SUBMIT_ARGS"] = (
 )
 
 
-def sink_console(df, output_mode: str = "complete", processing_time: str = "5 seconds"):
-    query = (
-        df.writeStream.outputMode(output_mode)
-        .trigger(processingTime=processing_time)
-        .format("console")
-        .option("truncate", False)
-        .start()
-        .awaitTermination()
-    )
-    return query  # pyspark.sql.streaming.StreamingQuery
-
-
-def op_groupby(df, column_names):
-    df_aggregation = df.groupBy(column_names).count()
-    return df_aggregation
-
-
 spark = SparkSession.builder.appName("RidesConsumer").getOrCreate()
 
 TOPICS = ["quickstart-events", "rides_green", "rides_fhv"]
