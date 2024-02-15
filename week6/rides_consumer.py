@@ -29,11 +29,13 @@ def op_groupby(df, column_names):
 
 spark = SparkSession.builder.appName("RidesConsumer").getOrCreate()
 
+TOPICS = ["quickstart-events", "rides_green", "rides_fhv"]
+AGGREGATION_TIME = "10 seconds"
 
 df = (
     spark.readStream.format("kafka")
     .option("kafka.bootstrap.servers", "localhost:9092")
-    .option("subscribe", "quickstart-events")
+    .option("subscribe", ",".join(TOPICS))
     .option("startingOffsets", "latest")
     .option("failOnDataLoss", "false")
     .load()
