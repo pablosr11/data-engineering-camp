@@ -74,9 +74,8 @@ df_trip_count_by_pulocation = (
 
 
 df_pu_location_count = (
-    df_trip_count_by_pulocation
-    # .sort(F.col("value").desc())
-    # .limit(10)
+    df_trip_count_by_pulocation.sort(F.col("value").desc())
+    .limit(10)
     .selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
 )
 
