@@ -75,8 +75,16 @@ df.printSchema()
 
 df = df.select("PULocationID", "DOLocationID").filter("PULocationID is not null")
 
-df_trip_count_by_pulocation = op_groupby(df, ["PUlocationID"])
-df_pu_location_count = df_trip_count_by_pulocation.sort(F.col("count").desc())
-df_pu_location_count.writeStream.outputMode("complete").format("console").start()
+
+df_trip_count_by_pulocation = df.groupBy(["PUlocationID"]).count()
+
+
+df_pu_location_count = df_trip_count_by_pulocation.sort(F.col("count").desc()).limit(10)
+(
+    df_pu_location_count.writeStream.outputMode("complete")
+    .trigger(processingTime=AGGREGATION_TIME)
+    .format("console")
+    .start()
+)
 
 spark.streams.awaitAnyTermination()
