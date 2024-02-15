@@ -58,8 +58,11 @@ df.printSchema()
 
 df = df.select("PULocationID", "DOLocationID").filter("PULocationID is not null")
 
+# add timestamp
+df = df.withColumn("timestamp", F.current_timestamp())
 
-df_trip_count_by_pulocation = df.groupBy(["PUlocationID"]).count()
+# add watermark so we can aggregate over time
+df = df.withWatermark("timestamp", "10 minutes")
 
 
 df_pu_location_count = df_trip_count_by_pulocation.sort(F.col("count").desc()).limit(10)
