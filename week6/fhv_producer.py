@@ -6,7 +6,7 @@ from confluent_kafka import Producer
 RIDE_TYPE = "fhv"  # green or fhv or quickstart-events
 RIDES_FILEPATH = f"/Users/ps/Downloads/{RIDE_TYPE}_tripdata_2019-01.csv"
 SLEEP_BOUNDS = (2, 6)
-TOPIC = "quickstart-events"  # f"rides_{RIDE_TYPE}"
+TOPIC = f"rides_{RIDE_TYPE}"
 
 p = Producer({"bootstrap.servers": "localhost:9092"})
 
