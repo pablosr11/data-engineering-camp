@@ -65,9 +65,13 @@ df = df.withColumn("timestamp", F.current_timestamp())
 df = df.withWatermark("timestamp", "10 minutes")
 
 
-df_pu_location_count = df_trip_count_by_pulocation.sort(F.col("count").desc()).limit(10)
-(
-    df_pu_location_count.writeStream.outputMode("complete")
+df_trip_count_by_pulocation = (
+    df.groupBy(["PUlocationID"])
+    .count()
+    .withColumnRenamed("count", "value")
+    .withColumnRenamed("PUlocationID", "key")
+)
+
     .trigger(processingTime=AGGREGATION_TIME)
     .format("console")
     .start()
