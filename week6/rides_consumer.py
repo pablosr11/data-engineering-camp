@@ -77,4 +77,17 @@ df_trip_count_by_pulocation = (
     .start()
 )
 
+(
+    df_pu_location_count.selectExpr(
+        "CAST(key AS STRING)", "to_json(struct(*)) AS value"
+    )
+    .writeStream.outputMode("update")
+    .format("kafka")
+    .option("kafka.bootstrap.servers", "localhost:9092")
+    .option("topic", "rides_all")
+    .option("checkpointLocation", "/tmp/checkpoint")
+    .start()
+)
+
+
 spark.streams.awaitAnyTermination()
