@@ -82,7 +82,7 @@ df_pu_location_count = (
 
 (
     # both key and value as types.StringType
-    df_pu_location_count.writeStream.outputMode("update")
+    df_pu_location_count.writeStream.outputMode("complete")
     .trigger(processingTime=AGGREGATION_TIME)
     .format("console")
     .start()
@@ -92,8 +92,9 @@ df_pu_location_count = (
     df_pu_location_count.selectExpr(
         "CAST(key AS STRING)", "to_json(struct(*)) AS value"
     )
-    .writeStream.outputMode("update")
+    .writeStream.outputMode("complete")
     .format("kafka")
+    .trigger(processingTime=AGGREGATION_TIME)
     .option("kafka.bootstrap.servers", "localhost:9092")
     .option("topic", "rides_all")
     .option("checkpointLocation", "/tmp/checkpoint")
