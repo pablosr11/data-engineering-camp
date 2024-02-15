@@ -6,7 +6,7 @@ from pyspark.sql import SparkSession
 from schemas import ALL_RIDE_SCHEMA, dispatch_schema, ride_schema
 
 os.environ["PYSPARK_SUBMIT_ARGS"] = (
-    "--packages org.apache.spark:spark-streaming-kafka-0-10_2.12:3.2.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.0 pyspark-shell"
+    "--packages org.apache.spark:spark-streaming-kafka-0-10_2.12:3.5.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 pyspark-shell"
 )
 
 
