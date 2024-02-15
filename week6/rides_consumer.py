@@ -72,6 +72,17 @@ df_trip_count_by_pulocation = (
     .withColumnRenamed("PUlocationID", "key")
 )
 
+
+df_pu_location_count = (
+    df_trip_count_by_pulocation
+    # .sort(F.col("value").desc())
+    # .limit(10)
+    .selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
+)
+
+(
+    # both key and value as types.StringType
+    df_pu_location_count.writeStream.outputMode("update")
     .trigger(processingTime=AGGREGATION_TIME)
     .format("console")
     .start()
